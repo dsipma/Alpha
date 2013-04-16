@@ -8,13 +8,14 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class InGame extends SurfaceView {
 
-    private final int NUMBER_OF_EACH_LETTER = 5; //number of each letter to show in game box
+    private final int NUMBER_OF_EACH_LETTER = 3; //number of each letter to show in game box
 
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
@@ -71,6 +72,8 @@ public class InGame extends SurfaceView {
 
         //add letters to game area
         for(int i = 0; i < NUMBER_OF_EACH_LETTER; i++) {
+            //from module - level
+            letters.add(createLetter(R.drawable.e));
             letters.add(createLetter(R.drawable.d));
             letters.add(createLetter(R.drawable.c));
             letters.add(createLetter(R.drawable.b));
@@ -82,7 +85,12 @@ public class InGame extends SurfaceView {
         searching.add(createLetter(R.drawable.b));
         searching.add(createLetter(R.drawable.c));
         searching.add(createLetter(R.drawable.d));
+        searching.add(createLetter(R.drawable.e));
         activeLetter = searching.get(0);
+
+        Log.i("Alpha", "ActiveLetter.bmp:" + activeLetter.getBmp());
+        Log.i("Alpha", "searching.bmp" + searching.get(0).getBmp());
+
 
     }
 
@@ -102,28 +110,46 @@ public class InGame extends SurfaceView {
                     //if current, remove it and decrement number of active letters
 
                     //TODO Fix, not comparing correctly
-                    if(activeLetter.getBmp().sameAs(letter.getBmp()))
+                    if(activeLetter.getBmp().sameAs(letter.getBmp())) {
                         Log.i("Alpha", "active letters:" + numActiveLetters);
                         letters.remove(letter);
                         numActiveLetters--;
 
                         //if last active number, move on to next searching letter and remove extinguished letter
                         if(numActiveLetters == 0) {
-
                             numActiveLetters = NUMBER_OF_EACH_LETTER;
+                            searching.remove(0);
+
+                            //check if done
+                            if(searching.isEmpty()) {
+                                showToast("Win.");
+                            }
+                            else {
+                                activeLetter = searching.get(0);
+                            }
+
+                            //check if done
+
+/*
                             for (Letter search : searching) {
                                 if(search.getBmp().sameAs(activeLetter.getBmp())) {
                                     searching.remove(search);
                                     activeLetter = searching.get(0);
-
                                 }
                             }
+                            */
                         }
+                    }
                 break;
                 }
             }
        }
         return true;
+    }
+
+    private void showToast(String text) {
+        Toast toast = Toast.makeText(this.getContext(), text, Toast.LENGTH_LONG);
+        toast.show();
     }
 
     private Letter createLetter(int resource) {

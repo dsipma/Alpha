@@ -3,7 +3,7 @@ package net.squidmonkey.Alpha;
 import android.graphics.Canvas;
 
 public class GameLoopThread extends Thread {
-    private final long FPS = 20;
+    private final long FPS = 24;
 
     private InGame view;
     private boolean running = false;
@@ -40,7 +40,7 @@ public class GameLoopThread extends Thread {
                     sleep(sleepTime);
                 else
                     sleep(10);
-            } catch (Exception e) {
+            } catch (InterruptedException e) {
                 System.out.println("Sleep time error.");
             }
         }

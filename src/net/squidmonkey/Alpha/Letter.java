@@ -28,8 +28,12 @@ public class Letter {
         y = rnd.nextInt(inGame.getHeight() * GAME_SIZE / 100 - height) + inGame.getHeight() * TOP_SIZE / 100;
         twist = rnd.nextInt(MAX_TWIST_ANGLE * 2) - MAX_TWIST_ANGLE;
         wiggleSpeed = rnd.nextInt(MAX_WIGGLE_SPEED - 1) + 1;
-        xSpeed = rnd.nextInt(MAX_SPEED * 2) - MAX_SPEED + 1;
-        ySpeed = rnd.nextInt(MAX_SPEED * 2) - MAX_SPEED + 1;
+        xSpeed = rnd.nextInt(MAX_SPEED * 2) - MAX_SPEED;
+        ySpeed = rnd.nextInt(MAX_SPEED * 2) - MAX_SPEED;
+        if(xSpeed == 0)
+            xSpeed = (rnd.nextInt(1) == 0) ? -1 : 1;
+        if(ySpeed == 0)
+            ySpeed = (rnd.nextInt(1) == 0) ? -1 : 1;
     }
 
     private void update() {
@@ -40,17 +44,20 @@ public class Letter {
             if(twist > MAX_TWIST_ANGLE)
                 wiggle=false;
         }
-
-        else { //if twisting to left
+        //if twisting to left
+        else {
             twist-= wiggleSpeed;
             if(twist < -MAX_TWIST_ANGLE)
                 wiggle=true;
         }
 
+        //if at right side or left side, reverse xspeed
         if (x >= inGame.getWidth() - width - xSpeed || x + xSpeed <= 0) {
             xSpeed = -xSpeed;
         }
         x = x + xSpeed;
+
+        //if at bottom or top of game area, reverse yspeed
         if (y >= inGame.getHeight() * GAME_SIZE / 100 - height - ySpeed || y + ySpeed <= inGame.getHeight() * TOP_SIZE / 100) {
             ySpeed = -ySpeed;
         }
@@ -58,6 +65,7 @@ public class Letter {
 
     }
 
+    //on draw, compute new location, and apply rotation and movement
     public void onDraw(Canvas canvas) {
         update();
         canvas.save();
