@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Letter {
     private final int TOP_SIZE = 10;  //Percentage of screen for apples and shit over the top
-    private final int GAME_SIZE = 75;  //  percetage of screen for drawing letters
+    private final int GAME_SIZE = 75;  //  percentage of screen for drawing letters
 
     private final int MAX_TWIST_ANGLE = 15;
     private final int MAX_WIGGLE_SPEED = 3;

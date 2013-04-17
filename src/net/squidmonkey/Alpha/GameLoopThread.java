@@ -29,7 +29,8 @@ public class GameLoopThread extends Thread {
                 synchronized (view.getHolder()) {
                     view.onDraw(c);
                 }
-            } finally {
+            }
+            finally {
                 if (c != null) {
                     view.getHolder().unlockCanvasAndPost(c);
                 }

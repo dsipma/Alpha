@@ -47,7 +47,7 @@ public class InGame extends SurfaceView {
 
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
-                createLetters();
+                makeLetters();
 
                 //scale and set background to sand image
                 Bitmap bg = BitmapFactory.decodeResource(getResources(), R.drawable.sand);
@@ -68,7 +68,7 @@ public class InGame extends SurfaceView {
         });
     }
 
-    private void createLetters() {
+    private void makeLetters() {
 
         //add letters to game area
         for(int i = 0; i < NUMBER_OF_EACH_LETTER; i++) {
@@ -109,7 +109,6 @@ public class InGame extends SurfaceView {
                     //if collision, check and see if current letter
                     //if current, remove it and decrement number of active letters
 
-                    //TODO Fix, not comparing correctly
                     if(activeLetter.getBmp().sameAs(letter.getBmp())) {
                         Log.i("Alpha", "active letters:" + numActiveLetters);
                         letters.remove(letter);
@@ -120,24 +119,14 @@ public class InGame extends SurfaceView {
                             numActiveLetters = NUMBER_OF_EACH_LETTER;
                             searching.remove(0);
 
-                            //check if done
+                            //check if done finding searching targets
                             if(searching.isEmpty()) {
+                                //TODO replace toast message with endGame/level up
                                 showToast("Win.");
                             }
                             else {
                                 activeLetter = searching.get(0);
                             }
-
-                            //check if done
-
-/*
-                            for (Letter search : searching) {
-                                if(search.getBmp().sameAs(activeLetter.getBmp())) {
-                                    searching.remove(search);
-                                    activeLetter = searching.get(0);
-                                }
-                            }
-                            */
                         }
                     }
                 break;
